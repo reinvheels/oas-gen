@@ -9,8 +9,7 @@ type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patc
 type DocumentProps = {
     spec: oas.Document;
 };
-const Document = ({ spec }: DocumentProps) => {
-    return /*html*/ `
+const Document = ({ spec }: DocumentProps) => /*html*/ `
 <html>
 <head>
     <title>${spec.info.title}</title>
@@ -21,45 +20,41 @@ const Document = ({ spec }: DocumentProps) => {
 </body>
 </html>
 `;
-};
 
 type OperationsProps = {
     paths: oas.PathsObject;
 };
-const Operations = ({ paths }: OperationsProps) => {
-    return Object.entries(paths)
-        .map(([path, pathObject]) => {
-            return pathObject
+const Operations = ({ paths }: OperationsProps) =>
+    Object.entries(paths)
+        .map(([path, pathObject]) =>
+            pathObject
                 ? Object.entries(pathObject)
-                      .map(([method, operation]) => {
-                          return Operation({
+                      .map(([method, operation]) =>
+                          Operation({
                               operation: operation as oas.OperationObject,
                               method: method as HttpMethod,
                               path,
-                          });
-                      })
+                          }),
+                      )
                       .join('')
-                : '';
-        })
+                : '',
+        )
         .join('');
-};
 
 type OperationProps = {
     method: HttpMethod;
     path: string;
     operation: oas.OperationObject;
 };
-const Operation = ({ operation, method, path }: OperationProps) => {
-    return /*html*/ `<div>
+const Operation = ({ operation, method, path }: OperationProps) => /*html*/ `
+<div>
     <h2>${method.toUpperCase()} ${path}</h2>
     <h3>${operation.operationId}</h3>
     <p>${operation.description}</p>
 </div>
 `;
-};
 
 const documentHtml = Document({ spec });
-
 spec.paths &&
     fs.writeFileSync(
         'examples/petstore.html',

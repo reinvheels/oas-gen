@@ -1,0 +1,23 @@
+{
+    "editor.formatOnSave": true,
+    "typescript.validate.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "always"
+    },
+    "eslint.workingDirectories": [{ "pattern": "./packages/*" }, "./packages/got-api-core"],
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[go]": {
+        "editor.defaultFormatter": "golang.go"
+    }
+}

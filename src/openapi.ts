@@ -47,5 +47,27 @@ export const Operation = ({ operation, method, path }: OperationProps) => /*html
     <h2>${method.toUpperCase()} ${path}</h2>
     <h3>${operation.operationId}</h3>
     <p>${operation.description}</p>
+    ${operation.requestBody && RequestBodySwitch({ requestBody: operation.requestBody })}
 </div>
 `;
+
+const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined) => {
+    if (schemaOrRef && '$ref' in schemaOrRef) {
+        return {};
+    } else if (schemaOrRef === undefined) {
+        return {};
+    } else {
+        return schemaOrRef;
+    }
+};
+
+type RequestBodySwitchProps = {
+    requestBody: oas.ReferenceObject | oas.RequestBodyObject;
+};
+const RequestBodySwitch = ({ requestBody }: RequestBodySwitchProps) => {
+    const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
+    const schema = getSchema(schemaOrRef);
+    return /*html*/ `
+    <h4>Request Body</h4>
+`;
+};

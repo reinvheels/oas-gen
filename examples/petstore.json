@@ -63,14 +63,6 @@
                                 "required": ["id"],
                                 "writeOnly": true
                             }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Pet",
-                                "description": "A Pet in XML Format",
-                                "required": ["id"],
-                                "writeOnly": true
-                            }
                         }
                     },
                     "required": true
@@ -79,13 +71,6 @@
                     "200": {
                         "description": "Successful operation",
                         "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet",
-                                    "description": "A Pet in XML Format",
-                                    "readOnly": true
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Pet",
@@ -126,14 +111,6 @@
                                 "required": ["id"],
                                 "writeOnly": true
                             }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Pet",
-                                "description": "A Pet in XML Format",
-                                "required": ["id"],
-                                "writeOnly": true
-                            }
                         }
                     },
                     "required": true
@@ -142,13 +119,6 @@
                     "200": {
                         "description": "Successful operation",
                         "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet",
-                                    "description": "A Pet in XML Format",
-                                    "readOnly": true
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Pet",
@@ -198,12 +168,6 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/Pet",
                                     "description": "A Pet in JSON format"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet",
-                                    "description": "A Pet in XML format"
                                 }
                             }
                         }

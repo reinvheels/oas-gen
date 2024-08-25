@@ -1,9 +1,27 @@
 import * as fs from 'fs';
+import { format, resolveConfig } from 'prettier';
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
 
 const spec = JSON.parse(fs.readFileSync('examples/petstore.json').toString()) as oas.Document;
 
 type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patch' | 'trace';
+
+type DocumentProps = {
+    spec: oas.Document;
+};
+const Document = ({ spec }: DocumentProps) => {
+    return /*html*/ `
+<html>
+<head>
+    <title>${spec.info.title}</title>
+</head>
+<body>
+    <h1>${spec.info.title}</h1>
+    ${spec.paths ? Operations({ paths: spec.paths }) : ''}
+</body>
+</html>
+`;
+};
 
 type OperationsProps = {
     paths: oas.PathsObject;
@@ -40,10 +58,13 @@ const Operation = ({ operation, method, path }: OperationProps) => {
 `;
 };
 
+const documentHtml = Document({ spec });
+
 spec.paths &&
     fs.writeFileSync(
         'examples/petstore.html',
-        Operations({
-            paths: spec.paths,
+        await format(documentHtml, {
+            parser: 'html',
+            ...(await resolveConfig('./.prettierrc.cjs')),
         }),
     );

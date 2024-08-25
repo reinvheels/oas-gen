@@ -51,6 +51,7 @@ const Operation = ({ operation, method, path, spec }: OperationProps) => /*html*
     <h3>${operation.operationId}</h3>
     <p>${operation.description}</p>
     ${operation.requestBody && RequestBody({ requestBody: operation.requestBody, spec })}
+    ${operation.responses && Responses({ responses: operation.responses, spec })}
 </div>
 `;
 
@@ -58,9 +59,7 @@ const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefin
     const schemas = spec.components?.schemas || {};
     if (schemaOrRef && '$ref' in schemaOrRef) {
         const schemaName = schemaOrRef.$ref.split('#/components/schemas/')[1];
-        return schemas[schemaName] || {};
-    } else if (schemaOrRef === undefined) {
-        return {};
+        return schemas[schemaName] || undefined;
     } else {
         return schemaOrRef;
     }
@@ -73,9 +72,39 @@ type RequestBodyProps = {
 const RequestBody = ({ requestBody, spec }: RequestBodyProps) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
     const schema = getSchema(schemaOrRef, spec);
-    return /*html*/ `
+    return schema
+        ? /*html*/ `
     <h4>Request Body</h4>
     ${Schema({ schema, spec })}
+`
+        : '';
+};
+
+type ResponsesProps = {
+    responses: oas.ResponsesObject;
+    spec: oas.Document;
+};
+const Responses = ({ responses, spec }: ResponsesProps) => {
+    return /*html*/ `
+    <h4>Responses</h4>
+    ${Object.entries(responses)
+        .map(([status, response]) => Response({ status, response, spec }))
+        .join('')}
+`;
+};
+
+type ResponseProps = {
+    status: string;
+    response: oas.ReferenceObject | oas.ResponseObject;
+    spec: oas.Document;
+};
+const Response = ({ status, response, spec }: ResponseProps) => {
+    const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
+    const schema = getSchema(schemaOrRef, spec);
+    return /*html*/ `
+    <h5>${status}</h5>
+    ${response.description ? /*html*/ `<p>${response.description}</p>` : ''}
+    ${schema ? Schema({ schema, spec }) : ''}
 `;
 };
 

@@ -13,7 +13,8 @@ spec.paths &&
                 fs.appendFileSync(
                     'examples/petstore.html',
                     /*html*/ `<div>
-                <h2>${operation.operationId}</h2>
+                <h2>${method.toUpperCase()} ${path}</h2>
+                <h3>${operation.operationId}</h3>
                 <p>${operation.description}</p>
             </div>`,
                 );

@@ -12,15 +12,16 @@ export const Document = ({ spec }: DocumentProps) => /*html*/ `
 </head>
 <body>
     <h1>${spec.info.title}</h1>
-    ${spec.paths ? Operations({ paths: spec.paths }) : ''}
+    ${spec.paths ? Operations({ paths: spec.paths, spec }) : ''}
 </body>
 </html>
 `;
 
 type OperationsProps = {
     paths: oas.PathsObject;
+    spec: oas.Document;
 };
-export const Operations = ({ paths }: OperationsProps) =>
+const Operations = ({ paths, spec }: OperationsProps) =>
     Object.entries(paths)
         .map(([path, pathObject]) =>
             pathObject
@@ -30,6 +31,7 @@ export const Operations = ({ paths }: OperationsProps) =>
                               operation: operation as oas.OperationObject,
                               method: method as HttpMethod,
                               path,
+                              spec,
                           }),
                       )
                       .join('')
@@ -41,19 +43,22 @@ type OperationProps = {
     method: HttpMethod;
     path: string;
     operation: oas.OperationObject;
+    spec: oas.Document;
 };
-export const Operation = ({ operation, method, path }: OperationProps) => /*html*/ `
+const Operation = ({ operation, method, path, spec }: OperationProps) => /*html*/ `
 <div>
     <h2>${method.toUpperCase()} ${path}</h2>
     <h3>${operation.operationId}</h3>
     <p>${operation.description}</p>
-    ${operation.requestBody && RequestBodySwitch({ requestBody: operation.requestBody })}
+    ${operation.requestBody && RequestBody({ requestBody: operation.requestBody, spec })}
 </div>
 `;
 
-const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined) => {
+const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined, spec: oas.Document) => {
+    const schemas = spec.components?.schemas || {};
     if (schemaOrRef && '$ref' in schemaOrRef) {
-        return {};
+        const schemaName = schemaOrRef.$ref.split('#/components/schemas/')[1];
+        return schemas[schemaName] || {};
     } else if (schemaOrRef === undefined) {
         return {};
     } else {
@@ -61,13 +66,38 @@ const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefin
     }
 };
 
-type RequestBodySwitchProps = {
+type RequestBodyProps = {
     requestBody: oas.ReferenceObject | oas.RequestBodyObject;
+    spec: oas.Document;
 };
-const RequestBodySwitch = ({ requestBody }: RequestBodySwitchProps) => {
+const RequestBody = ({ requestBody, spec }: RequestBodyProps) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
-    const schema = getSchema(schemaOrRef);
+    const schema = getSchema(schemaOrRef, spec);
     return /*html*/ `
     <h4>Request Body</h4>
+    ${Schema({ schema, spec })}
 `;
 };
+
+type SchemaProps = {
+    schema: oas.SchemaObject;
+    spec: oas.Document;
+};
+const Schema = ({ schema, spec }: SchemaProps) => /*html*/ `
+<div>
+${
+    schema.properties &&
+    Object.entries(schema.properties)
+        .map(([name, schema]) => Property({ name, schema, spec }))
+        .join('')
+}
+</div>`;
+
+type PropertyProps = {
+    name: string;
+    schema: oas.SchemaObject;
+    spec: oas.Document;
+};
+const Property = ({ name, schema }: PropertyProps) => /*html*/ `
+<span>${name}:</span> <b>${schema.type}</b> <br />
+`;

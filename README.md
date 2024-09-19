@@ -1,3 +1,5 @@
+OpenAPI generator design pattern, that can be used to build simple and sophisticated code generators from OpenAPI specs.
+
 # oas-gen
 
 To install dependencies:
@@ -11,5 +13,3 @@ To run:
 ```bash
 bun run src/index.ts
 ```
-
-This project was created using `bun init` in bun v1.1.13. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.

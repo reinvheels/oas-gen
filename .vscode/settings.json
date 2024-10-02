@@ -4,7 +4,6 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "always"
     },
-    "eslint.workingDirectories": [{ "pattern": "./packages/*" }, "./packages/got-api-core"],
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -19,5 +18,6 @@
     },
     "[go]": {
         "editor.defaultFormatter": "golang.go"
-    }
+    },
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

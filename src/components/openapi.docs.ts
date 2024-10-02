@@ -103,6 +103,7 @@ const Response: Component<ResponseProps> = ({ status, response, spec }) => {
 
 const Schema: Component<SchemaProps> = ({ schema, spec }) =>
     html`<div>
+        ${schema.description ? html`<p class="text-sm">${schema.description}</p>` : ''}
         ${schema.properties &&
         Object.entries(schema.properties)
             .map(([name, schema]) => ComponentSlot('Property', { name, schema, spec }))

@@ -17,9 +17,10 @@ const Document: Component<DocumentProps> = ({ spec }) => html`
     <html>
         <head>
             <title>${spec.info.title}</title>
+            <script src="https://cdn.tailwindcss.com"></script>
         </head>
         <body>
-            <h1>${spec.info.title}</h1>
+            <h1 class="text-xl">${spec.info.title}</h1>
             ${spec.paths ? ComponentSlot('Operations', { paths: spec.paths, spec }) : ''}
         </body>
     </html>

@@ -1,5 +1,4 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
-import { html } from '../util';
 import { createGenerator, type Component } from '../generator';
 
 export type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patch' | 'trace';

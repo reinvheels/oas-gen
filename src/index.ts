@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { format, resolveConfig } from 'prettier';
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
-import { ComponentSlot } from './my-gen';
+import { ComponentSlot } from './components/openapi.docs';
 
 const spec = JSON.parse(fs.readFileSync('examples/petstore.json').toString()) as oas.Document;
 

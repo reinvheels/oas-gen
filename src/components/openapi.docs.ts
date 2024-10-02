@@ -1,6 +1,7 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
-import { html } from './util';
-import { createGenerator, type Component } from './generator';
+import { html } from '../util';
+import { type Component } from '../generator';
+import { OpenApiGenerator } from './openapi';
 
 type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patch' | 'trace';
 
@@ -142,5 +143,9 @@ export const OpenApi = {
     Property,
 };
 
-export const Generator = createGenerator(OpenApi);
-const { ComponentSlot } = Generator;
+OpenApiGenerator.setComponents({
+    // Response: MyResponse,
+});
+
+export const { ComponentSlot } = OpenApiGenerator;
+export const OpenApiDocsGenerator = OpenApiGenerator;

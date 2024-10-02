@@ -45,12 +45,12 @@ const Document: Component<DocumentProps> = ({ spec }) => html`
 
 const Operation: Component<OperationProps> = ({ operation, method, path, spec }) => html`
     <hr class="mt-8 border-[0.8pt] border-black/70" />
-    <h2 class="font-mono">
-        <span class="${cls('text-2xl font-bold uppercase', HttpMethodColors[method])}">${method}</span>
-        <span class="text-xl">${path}</span>
+    <h2 class="font-mono text-4xl mt-4">
+        <span class="${cls('font-bold uppercase', HttpMethodColors[method])}">${method}</span>
+        <span>${path}</span>
     </h2>
-    <h3 class="text-3xl">${operation.summary || operation.operationId}</h3>
-    <p>${operation.description}</p>
+    <p>${operation.summary || operation.operationId}</p>
+    <p class="text-black/50">${operation.description}</p>
     ${operation.requestBody && ComponentSlot('RequestBody', { requestBody: operation.requestBody, spec })}
     ${operation.responses && ComponentSlot('Responses', { responses: operation.responses, spec })}
 `;

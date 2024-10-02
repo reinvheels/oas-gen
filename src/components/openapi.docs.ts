@@ -61,6 +61,7 @@ const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
     return schema
         ? html`
               <h4 class="mt-4 text-2xl">Request Body</h4>
+              ${requestBody.description ? html`<p>${requestBody.description}</p>` : ''}
               ${ComponentSlot('Schema', { schema, spec })}
           `
         : '';
@@ -68,19 +69,34 @@ const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
 
 const Responses: Component<ResponsesProps> = ({ responses, spec }) => {
     return html`
-        <h4>Responses</h4>
+        <h4 class="mt-4 text-2xl">Responses</h4>
         ${Object.entries(responses)
             .map(([status, response]) => ComponentSlot('Response', { status, response, spec }))
             .join('')}
     `;
 };
 
+const getStatusColor = (status: string) => {
+    if (status >= '200' && status < '300') {
+        return 'text-green-600';
+    } else if (status >= '300' && status < '400') {
+        return 'text-blue-300';
+    } else if (status >= '400' && status < '600') {
+        return 'text-red-500';
+    } else {
+        return 'text-gray-500';
+    }
+};
+
 const Response: Component<ResponseProps> = ({ status, response, spec }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
     const schema = getSchema(schemaOrRef, spec);
     return html`
-        <h5>${status}</h5>
-        ${response.description ? html`<p>${response.description}</p>` : ''}
+        <h5>
+            <span class="${cls('font-mono font-bold', getStatusColor(status))}">${status}</span> ${response.description
+                ? response.description
+                : ''}
+        </h5>
         ${schema ? ComponentSlot('Schema', { schema, spec }) : ''}
     `;
 };

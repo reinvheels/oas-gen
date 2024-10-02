@@ -22,6 +22,7 @@
             <p>Update an existing pet by Id</p>
 
             <h4 class="mt-4 text-2xl">Request Body</h4>
+            <p>Pet object that needs to be updated in the store</p>
             <div>
                 <span>id:</span> <b>integer</b> <br />
                 <span>category:</span> <b></b> <br />
@@ -34,10 +35,9 @@
                 <span>petDetails:</span> <b></b> <br />
             </div>
 
-            <h4>Responses</h4>
+            <h4 class="mt-4 text-2xl">Responses</h4>
 
-            <h5>200</h5>
-            <p>Successful operation</p>
+            <h5><span class="font-mono font-bold text-green-600">200</span> Successful operation</h5>
             <div>
                 <span>id:</span> <b>integer</b> <br />
                 <span>category:</span> <b></b> <br />
@@ -50,14 +50,11 @@
                 <span>petDetails:</span> <b></b> <br />
             </div>
 
-            <h5>400</h5>
-            <p>Invalid ID supplied</p>
+            <h5><span class="font-mono font-bold text-red-500">400</span> Invalid ID supplied</h5>
 
-            <h5>404</h5>
-            <p>Pet not found</p>
+            <h5><span class="font-mono font-bold text-red-500">404</span> Pet not found</h5>
 
-            <h5>405</h5>
-            <p>Validation exception</p>
+            <h5><span class="font-mono font-bold text-red-500">405</span> Validation exception</h5>
 
             <hr class="mt-8 border-[0.8pt] border-black/70" />
             <h2 class="font-mono">
@@ -68,6 +65,7 @@
             <p>Add a new pet to the store</p>
 
             <h4 class="mt-4 text-2xl">Request Body</h4>
+            <p>Create a new pet in the store</p>
             <div>
                 <span>id:</span> <b>integer</b> <br />
                 <span>category:</span> <b></b> <br />
@@ -80,10 +78,9 @@
                 <span>petDetails:</span> <b></b> <br />
             </div>
 
-            <h4>Responses</h4>
+            <h4 class="mt-4 text-2xl">Responses</h4>
 
-            <h5>200</h5>
-            <p>Successful operation</p>
+            <h5><span class="font-mono font-bold text-green-600">200</span> Successful operation</h5>
             <div>
                 <span>id:</span> <b>integer</b> <br />
                 <span>category:</span> <b></b> <br />
@@ -96,8 +93,7 @@
                 <span>petDetails:</span> <b></b> <br />
             </div>
 
-            <h5>405</h5>
-            <p>Invalid input</p>
+            <h5><span class="font-mono font-bold text-red-500">405</span> Invalid input</h5>
 
             <hr class="mt-8 border-[0.8pt] border-black/70" />
             <h2 class="font-mono">
@@ -107,16 +103,13 @@
             <h3 class="text-3xl">Find pet by ID</h3>
             <p>Returns a pet when 0 < ID <= 10. ID > 10 or nonintegers will simulate API error conditions</p>
 
-            <h4>Responses</h4>
+            <h4 class="mt-4 text-2xl">Responses</h4>
 
-            <h5>400</h5>
-            <p>Invalid ID supplied</p>
+            <h5><span class="font-mono font-bold text-red-500">400</span> Invalid ID supplied</h5>
 
-            <h5>404</h5>
-            <p>Pet not found</p>
+            <h5><span class="font-mono font-bold text-red-500">404</span> Pet not found</h5>
 
-            <h5>default</h5>
-            <p>The pet</p>
+            <h5><span class="font-mono font-bold text-gray-500">default</span> The pet</h5>
             <div>
                 <span>id:</span> <b>integer</b> <br />
                 <span>category:</span> <b></b> <br />

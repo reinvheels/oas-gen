@@ -1,13 +1,18 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
 import { html } from '../util';
 import { type Component } from '../generator';
-import { OpenApiGenerator } from './openapi';
+import {
+    getSchema,
+    OpenApiGenerator,
+    type DocumentProps,
+    type OperationProps,
+    type PropertyProps,
+    type RequestBodyProps,
+    type ResponseProps,
+    type ResponsesProps,
+    type SchemaProps,
+} from './openapi';
 
-type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patch' | 'trace';
-
-export type DocumentProps = {
-    spec: oas.Document;
-};
 const Document: Component<DocumentProps> = ({ spec }) => html`
     <html>
         <head>
@@ -20,34 +25,6 @@ const Document: Component<DocumentProps> = ({ spec }) => html`
     </html>
 `;
 
-export type OperationsProps = {
-    paths: oas.PathsObject;
-    spec: oas.Document;
-};
-const Operations: Component<OperationsProps> = ({ paths, spec }) =>
-    Object.entries(paths)
-        .map(([path, pathObject]) =>
-            pathObject
-                ? Object.entries(pathObject)
-                      .map(([method, operation]) =>
-                          ComponentSlot('Operation', {
-                              operation: operation as oas.OperationObject,
-                              method: method as HttpMethod,
-                              path,
-                              spec,
-                          }),
-                      )
-                      .join('')
-                : '',
-        )
-        .join('');
-
-export type OperationProps = {
-    method: HttpMethod;
-    path: string;
-    operation: oas.OperationObject;
-    spec: oas.Document;
-};
 const Operation: Component<OperationProps> = ({ operation, method, path, spec }) => html`
     <div>
         <h2>${method.toUpperCase()} ${path}</h2>
@@ -58,20 +35,6 @@ const Operation: Component<OperationProps> = ({ operation, method, path, spec })
     </div>
 `;
 
-export const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined, spec: oas.Document) => {
-    const schemas = spec.components?.schemas || {};
-    if (schemaOrRef && '$ref' in schemaOrRef) {
-        const schemaName = schemaOrRef.$ref.split('#/components/schemas/')[1];
-        return schemas[schemaName] || undefined;
-    } else {
-        return schemaOrRef;
-    }
-};
-
-export type RequestBodyProps = {
-    requestBody: oas.ReferenceObject | oas.RequestBodyObject;
-    spec: oas.Document;
-};
 const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
     const schema = getSchema(schemaOrRef, spec);
@@ -83,10 +46,6 @@ const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
         : '';
 };
 
-export type ResponsesProps = {
-    responses: oas.ResponsesObject;
-    spec: oas.Document;
-};
 const Responses: Component<ResponsesProps> = ({ responses, spec }) => {
     return html`
         <h4>Responses</h4>
@@ -96,11 +55,6 @@ const Responses: Component<ResponsesProps> = ({ responses, spec }) => {
     `;
 };
 
-export type ResponseProps = {
-    status: string;
-    response: oas.ReferenceObject | oas.ResponseObject;
-    spec: oas.Document;
-};
 const Response: Component<ResponseProps> = ({ status, response, spec }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
     const schema = getSchema(schemaOrRef, spec);
@@ -111,10 +65,6 @@ const Response: Component<ResponseProps> = ({ status, response, spec }) => {
     `;
 };
 
-export type SchemaProps = {
-    schema: oas.SchemaObject;
-    spec: oas.Document;
-};
 const Schema: Component<SchemaProps> = ({ schema, spec }) =>
     html`<div>
         ${schema.properties &&
@@ -123,18 +73,11 @@ const Schema: Component<SchemaProps> = ({ schema, spec }) =>
             .join('')}
     </div>`;
 
-export type PropertyProps = {
-    name: string;
-    schema: oas.SchemaObject;
-    spec: oas.Document;
-};
-const Property: Component<PropertyProps> = ({ name, schema }) => html`
-    <span>${name}:</span> <b>${schema.type}</b> <br />
-`;
+const Property: Component<PropertyProps> = ({ name, schema }) =>
+    html` <span>${name}:</span> <b>${schema.type}</b> <br />`;
 
-export const OpenApi = {
+export const OpenApiDocs = {
     Document,
-    Operations,
     Operation,
     RequestBody,
     Responses,
@@ -143,9 +86,7 @@ export const OpenApi = {
     Property,
 };
 
-OpenApiGenerator.setComponents({
-    // Response: MyResponse,
-});
+OpenApiGenerator.setComponents(OpenApiDocs);
 
 export const { ComponentSlot } = OpenApiGenerator;
 export const OpenApiDocsGenerator = OpenApiGenerator;

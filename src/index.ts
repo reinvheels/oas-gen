@@ -8,6 +8,7 @@ const spec = JSON.parse(fs.readFileSync('examples/petstore.json').toString()) as
 spec.paths &&
     fs.writeFileSync(
         'examples/petstore.html',
+        // ComponentSlot('Document', { spec }),
         await format(ComponentSlot('Document', { spec }), {
             parser: 'html',
             ...(await resolveConfig('./.prettierrc.cjs')),

@@ -193,7 +193,7 @@
     "components": {
         "schemas": {
             "Category": {
-                "$id": "/components/schemas/category",
+                "$id": "#/components/schemas/category",
                 "description": "Category",
                 "properties": {
                     "id": {
@@ -264,10 +264,10 @@
                     "petDetailsId": {
                         "type": "integer",
                         "format": "int64",
-                        "$ref": "/components/schemas/petdetails#pet_details_id"
+                        "$ref": "#/components/schemas/petdetails#pet_details_id"
                     },
                     "petDetails": {
-                        "$ref": "/components/schemas/petdetails"
+                        "$ref": "#/components/schemas/PetDetails"
                     }
                 },
                 "required": ["name", "photoUrls"],
@@ -276,7 +276,7 @@
                 }
             },
             "PetDetails": {
-                "$id": "/components/schemas/petdetails",
+                "$id": "#/components/schemas/petdetails",
                 "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "$vocabulary": "https://spec.openapis.org/oas/3.1/schema-base",
                 "properties": {
@@ -287,11 +287,11 @@
                         "example": 10
                     },
                     "category": {
-                        "$ref": "/components/schemas/category",
+                        "$ref": "#/components/schemas/category",
                         "description": "PetDetails Category"
                     },
                     "tag": {
-                        "$ref": "/components/schemas/tag"
+                        "$ref": "#/components/schemas/tag"
                     }
                 },
                 "xml": {
@@ -299,7 +299,7 @@
                 }
             },
             "Tag": {
-                "$id": "/components/schemas/tag",
+                "$id": "#/components/schemas/tag",
                 "properties": {
                     "id": {
                         "type": "integer",

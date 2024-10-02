@@ -117,14 +117,19 @@ const Schema: Component<SchemaProps> = ({ schema, spec }) =>
             .join('')}
     </div>`;
 
-const Property: Component<PropertyProps> = ({ name, schema, required }) => html`
-    <p>
-        <span>${name}:</span>${' '}
-        ${schema.type ? html`<span class="font-mono font-bold text-emerald-700/80">${schema.type}</span>` : ''}
-        ${required ? html`<span class="text-red-600">*</span>` : ''}
-    </p>
-    <div>REST</div>
-`;
+const Property: Component<PropertyProps> = ({ name, schema: schemaOrRef, required, spec }) => {
+    const schema = getSchema(schemaOrRef, spec);
+    return html`
+        <p>
+            <span>${name}:</span>${' '}
+            ${schema && schema.type
+                ? html`<span class="font-mono font-bold text-emerald-700/80">${schema.type}</span>`
+                : ''}
+            ${required ? html`<span class="text-red-600">*</span>` : ''}
+        </p>
+        <div class="pl-4">${schema && schema.properties ? ComponentSlot('Schema', { schema, spec }) : ''}</div>
+    `;
+};
 
 export const OpenApiDocs = {
     Document,

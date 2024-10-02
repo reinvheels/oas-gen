@@ -287,11 +287,11 @@
                         "example": 10
                     },
                     "category": {
-                        "$ref": "#/components/schemas/category",
+                        "$ref": "#/components/schemas/Category",
                         "description": "PetDetails Category"
                     },
                     "tag": {
-                        "$ref": "#/components/schemas/tag"
+                        "$ref": "#/components/schemas/Tag"
                     }
                 },
                 "xml": {

@@ -69,7 +69,7 @@ const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
 
 const SchemaPanel: Component<SchemaProps> = ({ schema, usedRefs, spec }) =>
     html`<div class="rounded-xl bg-slate-100 p-4 mb-4">
-        <div class="flex flex-row gap-4">
+        <div class="flex flex-row gap-4 md:flex-col">
             <div class="flex flex-1">${ComponentSlot('Schema', { schema, usedRefs, spec })}</div>
             <div class="flex flex-1 bg-white rounded-md p-4">
                 <pre>${JSON.stringify({ some: 'example', props: 42 }, null, 4)}</pre>

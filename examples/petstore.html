@@ -4,11 +4,21 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
-        <h1 class="text-xl">Swagger Petstore - OpenAPI 3.1</h1>
+        <div class="p-4 flex flex-col gap-2 container mx-auto">
+            <h1 class="mt-16 text-5xl">
+                Swagger Petstore - OpenAPI 3.1<span class="text-lg italic opacity-50">1.0.6</span>
+            </h1>
+            <p class="text-lg">
+                This is a sample Pet Store Server based on the OpenAPI 3.1 specification. You can find out more about
+                Swagger at [http://swagger.io](http://swagger.io).
+            </p>
 
-        <div>
-            <h2>PUT /pet</h2>
-            <h3>updatePet</h3>
+            <hr class="mt-8 border-[0.8pt] border-black/70" />
+            <h2 class="font-mono">
+                <span class="text-2xl font-bold uppercase">put</span>
+                <span class="text-xl">/pet</span>
+            </h2>
+            <h3 class="text-3xl">Update an existing pet</h3>
             <p>Update an existing pet by Id</p>
 
             <h4>Request Body</h4>
@@ -48,11 +58,13 @@
 
             <h5>405</h5>
             <p>Validation exception</p>
-        </div>
 
-        <div>
-            <h2>POST /pet</h2>
-            <h3>addPet</h3>
+            <hr class="mt-8 border-[0.8pt] border-black/70" />
+            <h2 class="font-mono">
+                <span class="text-2xl font-bold uppercase">post</span>
+                <span class="text-xl">/pet</span>
+            </h2>
+            <h3 class="text-3xl">Add a new pet to the store</h3>
             <p>Add a new pet to the store</p>
 
             <h4>Request Body</h4>
@@ -86,11 +98,13 @@
 
             <h5>405</h5>
             <p>Invalid input</p>
-        </div>
 
-        <div>
-            <h2>GET /pet/{petId}</h2>
-            <h3>getPetById</h3>
+            <hr class="mt-8 border-[0.8pt] border-black/70" />
+            <h2 class="font-mono">
+                <span class="text-2xl font-bold uppercase">get</span>
+                <span class="text-xl">/pet/{petId}</span>
+            </h2>
+            <h3 class="text-3xl">Find pet by ID</h3>
             <p>Returns a pet when 0 < ID <= 10. ID > 10 or nonintegers will simulate API error conditions</p>
 
             <h4>Responses</h4>

@@ -20,20 +20,27 @@ const Document: Component<DocumentProps> = ({ spec }) => html`
             <script src="https://cdn.tailwindcss.com"></script>
         </head>
         <body>
-            <h1 class="text-xl">${spec.info.title}</h1>
-            ${spec.paths ? ComponentSlot('Operations', { paths: spec.paths, spec }) : ''}
+            <div class="p-4 flex flex-col gap-2 container mx-auto">
+                <h1 class="mt-16 text-5xl">
+                    ${spec.info.title}<span class="text-lg italic opacity-50">${spec.info.version}</span>
+                </h1>
+                <p class="text-lg">${spec.info.description}</p>
+                ${spec.paths ? ComponentSlot('Operations', { paths: spec.paths, spec }) : ''}
+            </div>
         </body>
     </html>
 `;
 
 const Operation: Component<OperationProps> = ({ operation, method, path, spec }) => html`
-    <div>
-        <h2>${method.toUpperCase()} ${path}</h2>
-        <h3>${operation.operationId}</h3>
-        <p>${operation.description}</p>
-        ${operation.requestBody && ComponentSlot('RequestBody', { requestBody: operation.requestBody, spec })}
-        ${operation.responses && ComponentSlot('Responses', { responses: operation.responses, spec })}
-    </div>
+    <hr class="mt-8 border-[0.8pt] border-black/70" />
+    <h2 class="font-mono">
+        <span class="text-2xl font-bold uppercase">${method}</span>
+        <span class="text-xl">${path}</span>
+    </h2>
+    <h3 class="text-3xl">${operation.summary || operation.operationId}</h3>
+    <p>${operation.description}</p>
+    ${operation.requestBody && ComponentSlot('RequestBody', { requestBody: operation.requestBody, spec })}
+    ${operation.responses && ComponentSlot('Responses', { responses: operation.responses, spec })}
 `;
 
 const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {

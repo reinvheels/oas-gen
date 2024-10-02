@@ -90,12 +90,20 @@ export type SchemaProps = {
 const Schema: Component<SchemaProps> = ({ schema, spec }) =>
     schema.properties
         ? Object.entries(schema.properties)
-              .map(([name, schema]) => ComponentSlot('Property', { name, schema, spec }))
+              .map(([name, schema]) =>
+                  ComponentSlot('Property', {
+                      name,
+                      required: 'required' in schema ? (schema.required?.includes(name) ?? false) : false,
+                      schema,
+                      spec,
+                  }),
+              )
               .join('')
         : '';
 
 export type PropertyProps = {
     name: string;
+    required: boolean;
     schema: oas.SchemaObject;
     spec: oas.Document;
 };

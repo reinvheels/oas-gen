@@ -1,10 +1,11 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
-import { html } from '../util';
+import { cls, html } from '../util';
 import { type Component } from '../generator';
 import {
     getSchema,
     OpenApiGenerator,
     type DocumentProps,
+    type HttpMethod,
     type OperationProps,
     type PropertyProps,
     type RequestBodyProps,
@@ -12,6 +13,17 @@ import {
     type ResponsesProps,
     type SchemaProps,
 } from './openapi';
+
+const HttpMethodColors: Record<HttpMethod, string> = {
+    get: 'text-green-500',
+    post: 'text-blue-500',
+    put: 'text-yellow-500',
+    delete: 'text-red-500',
+    head: 'text-gray-500',
+    options: 'text-purple-500',
+    patch: 'text-teal-500',
+    trace: 'text-indigo-500',
+};
 
 const Document: Component<DocumentProps> = ({ spec }) => html`
     <html>
@@ -34,7 +46,7 @@ const Document: Component<DocumentProps> = ({ spec }) => html`
 const Operation: Component<OperationProps> = ({ operation, method, path, spec }) => html`
     <hr class="mt-8 border-[0.8pt] border-black/70" />
     <h2 class="font-mono">
-        <span class="text-2xl font-bold uppercase">${method}</span>
+        <span class="${cls('text-2xl font-bold uppercase', HttpMethodColors[method])}">${method}</span>
         <span class="text-xl">${path}</span>
     </h2>
     <h3 class="text-3xl">${operation.summary || operation.operationId}</h3>
@@ -48,7 +60,7 @@ const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
     const schema = getSchema(schemaOrRef, spec);
     return schema
         ? html`
-              <h4>Request Body</h4>
+              <h4 class="mt-4 text-2xl">Request Body</h4>
               ${ComponentSlot('Schema', { schema, spec })}
           `
         : '';

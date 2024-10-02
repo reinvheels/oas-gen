@@ -23,113 +23,130 @@
 
             <h4 class="mt-4 text-2xl">Request Body</h4>
             <p>Pet object that needs to be updated in the store</p>
-            <div>
-                <p class="text-sm">Pet</p>
+            <div class="rounded-xl bg-slate-100 p-4 mb-4">
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-1">
+                        <div>
+                            <p class="text-sm">Pet</p>
 
-                <p>
-                    <span>id:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
+                            <p>
+                                <span>id:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
 
-                <p>
-                    <span>category:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p class="text-sm">Category</p>
+                            <p>
+                                <span>category:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p class="text-sm">Category</p>
 
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
 
-                        <p>
-                            <span>name:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">string</span>
-                        </p>
+                                    <p>
+                                        <span>name:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                    </p>
 
-                        <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                    <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                </div>
+                            </div>
+
+                            <p>
+                                <span>name:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>photoUrls:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>tags:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                            </p>
+
+                            <p>
+                                <span>status:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                            </p>
+
+                            <p>
+                                <span>availableInstances:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
+
+                            <p>
+                                <span>petDetailsId:</span>
+                            </p>
+
+                            <p>
+                                <span>petDetails:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
+
+                                    <p>
+                                        <span>category:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p class="text-sm">Category</p>
+
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+
+                                            <p>
+                                                <span>category:</span>
+                                                <span class="text-red-600">Circular</span> Category
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        <span>tag:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <p>
-                    <span>name:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>photoUrls:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>tags:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                </p>
-
-                <p>
-                    <span>status:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                </p>
-
-                <p>
-                    <span>availableInstances:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
-
-                <p>
-                    <span>petDetailsId:</span>
-                </p>
-
-                <p>
-                    <span>petDetails:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
-
-                        <p>
-                            <span>category:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p class="text-sm">Category</p>
-
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-
-                                <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
-                            </div>
-                        </div>
-
-                        <p>
-                            <span>tag:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-                            </div>
-                        </div>
+                    <div class="flex flex-1 bg-white rounded-md p-4">
+                        <pre>
+{
+    "some": "example",
+    "props": 42
+}</pre
+                        >
                     </div>
                 </div>
             </div>
@@ -137,113 +154,130 @@
             <h4 class="mt-4 text-2xl">Responses</h4>
 
             <h5><span class="font-mono font-bold text-green-600">200</span> Successful operation</h5>
-            <div>
-                <p class="text-sm">Pet</p>
+            <div class="rounded-xl bg-slate-100 p-4 mb-4">
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-1">
+                        <div>
+                            <p class="text-sm">Pet</p>
 
-                <p>
-                    <span>id:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
+                            <p>
+                                <span>id:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
 
-                <p>
-                    <span>category:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p class="text-sm">Category</p>
+                            <p>
+                                <span>category:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p class="text-sm">Category</p>
 
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
 
-                        <p>
-                            <span>name:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">string</span>
-                        </p>
+                                    <p>
+                                        <span>name:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                    </p>
 
-                        <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                    <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                </div>
+                            </div>
+
+                            <p>
+                                <span>name:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>photoUrls:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>tags:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                            </p>
+
+                            <p>
+                                <span>status:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                            </p>
+
+                            <p>
+                                <span>availableInstances:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
+
+                            <p>
+                                <span>petDetailsId:</span>
+                            </p>
+
+                            <p>
+                                <span>petDetails:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
+
+                                    <p>
+                                        <span>category:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p class="text-sm">Category</p>
+
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+
+                                            <p>
+                                                <span>category:</span>
+                                                <span class="text-red-600">Circular</span> Category
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        <span>tag:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <p>
-                    <span>name:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>photoUrls:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>tags:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                </p>
-
-                <p>
-                    <span>status:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                </p>
-
-                <p>
-                    <span>availableInstances:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
-
-                <p>
-                    <span>petDetailsId:</span>
-                </p>
-
-                <p>
-                    <span>petDetails:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
-
-                        <p>
-                            <span>category:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p class="text-sm">Category</p>
-
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-
-                                <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
-                            </div>
-                        </div>
-
-                        <p>
-                            <span>tag:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-                            </div>
-                        </div>
+                    <div class="flex flex-1 bg-white rounded-md p-4">
+                        <pre>
+{
+    "some": "example",
+    "props": 42
+}</pre
+                        >
                     </div>
                 </div>
             </div>
@@ -264,113 +298,130 @@
 
             <h4 class="mt-4 text-2xl">Request Body</h4>
             <p>Create a new pet in the store</p>
-            <div>
-                <p class="text-sm">Pet</p>
+            <div class="rounded-xl bg-slate-100 p-4 mb-4">
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-1">
+                        <div>
+                            <p class="text-sm">Pet</p>
 
-                <p>
-                    <span>id:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
+                            <p>
+                                <span>id:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
 
-                <p>
-                    <span>category:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p class="text-sm">Category</p>
+                            <p>
+                                <span>category:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p class="text-sm">Category</p>
 
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
 
-                        <p>
-                            <span>name:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">string</span>
-                        </p>
+                                    <p>
+                                        <span>name:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                    </p>
 
-                        <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                    <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                </div>
+                            </div>
+
+                            <p>
+                                <span>name:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>photoUrls:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>tags:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                            </p>
+
+                            <p>
+                                <span>status:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                            </p>
+
+                            <p>
+                                <span>availableInstances:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
+
+                            <p>
+                                <span>petDetailsId:</span>
+                            </p>
+
+                            <p>
+                                <span>petDetails:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
+
+                                    <p>
+                                        <span>category:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p class="text-sm">Category</p>
+
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+
+                                            <p>
+                                                <span>category:</span>
+                                                <span class="text-red-600">Circular</span> Category
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        <span>tag:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <p>
-                    <span>name:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>photoUrls:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>tags:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                </p>
-
-                <p>
-                    <span>status:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                </p>
-
-                <p>
-                    <span>availableInstances:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
-
-                <p>
-                    <span>petDetailsId:</span>
-                </p>
-
-                <p>
-                    <span>petDetails:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
-
-                        <p>
-                            <span>category:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p class="text-sm">Category</p>
-
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-
-                                <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
-                            </div>
-                        </div>
-
-                        <p>
-                            <span>tag:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-                            </div>
-                        </div>
+                    <div class="flex flex-1 bg-white rounded-md p-4">
+                        <pre>
+{
+    "some": "example",
+    "props": 42
+}</pre
+                        >
                     </div>
                 </div>
             </div>
@@ -378,113 +429,130 @@
             <h4 class="mt-4 text-2xl">Responses</h4>
 
             <h5><span class="font-mono font-bold text-green-600">200</span> Successful operation</h5>
-            <div>
-                <p class="text-sm">Pet</p>
+            <div class="rounded-xl bg-slate-100 p-4 mb-4">
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-1">
+                        <div>
+                            <p class="text-sm">Pet</p>
 
-                <p>
-                    <span>id:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
+                            <p>
+                                <span>id:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
 
-                <p>
-                    <span>category:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p class="text-sm">Category</p>
+                            <p>
+                                <span>category:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p class="text-sm">Category</p>
 
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
 
-                        <p>
-                            <span>name:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">string</span>
-                        </p>
+                                    <p>
+                                        <span>name:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                    </p>
 
-                        <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                    <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                </div>
+                            </div>
+
+                            <p>
+                                <span>name:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>photoUrls:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>tags:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                            </p>
+
+                            <p>
+                                <span>status:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                            </p>
+
+                            <p>
+                                <span>availableInstances:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
+
+                            <p>
+                                <span>petDetailsId:</span>
+                            </p>
+
+                            <p>
+                                <span>petDetails:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
+
+                                    <p>
+                                        <span>category:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p class="text-sm">Category</p>
+
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+
+                                            <p>
+                                                <span>category:</span>
+                                                <span class="text-red-600">Circular</span> Category
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        <span>tag:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <p>
-                    <span>name:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>photoUrls:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>tags:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                </p>
-
-                <p>
-                    <span>status:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                </p>
-
-                <p>
-                    <span>availableInstances:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
-
-                <p>
-                    <span>petDetailsId:</span>
-                </p>
-
-                <p>
-                    <span>petDetails:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
-
-                        <p>
-                            <span>category:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p class="text-sm">Category</p>
-
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-
-                                <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
-                            </div>
-                        </div>
-
-                        <p>
-                            <span>tag:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-                            </div>
-                        </div>
+                    <div class="flex flex-1 bg-white rounded-md p-4">
+                        <pre>
+{
+    "some": "example",
+    "props": 42
+}</pre
+                        >
                     </div>
                 </div>
             </div>
@@ -506,113 +574,130 @@
             <h5><span class="font-mono font-bold text-red-500">404</span> Pet not found</h5>
 
             <h5><span class="font-mono font-bold text-gray-500">default</span> The pet</h5>
-            <div>
-                <p class="text-sm">Pet</p>
+            <div class="rounded-xl bg-slate-100 p-4 mb-4">
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-1">
+                        <div>
+                            <p class="text-sm">Pet</p>
 
-                <p>
-                    <span>id:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
+                            <p>
+                                <span>id:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
 
-                <p>
-                    <span>category:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p class="text-sm">Category</p>
+                            <p>
+                                <span>category:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p class="text-sm">Category</p>
 
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
 
-                        <p>
-                            <span>name:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">string</span>
-                        </p>
+                                    <p>
+                                        <span>name:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                    </p>
 
-                        <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                    <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
+                                </div>
+                            </div>
+
+                            <p>
+                                <span>name:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>photoUrls:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                                <span class="text-red-600">*</span>
+                            </p>
+
+                            <p>
+                                <span>tags:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">array</span>
+                            </p>
+
+                            <p>
+                                <span>status:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                            </p>
+
+                            <p>
+                                <span>availableInstances:</span>
+                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                            </p>
+
+                            <p>
+                                <span>petDetailsId:</span>
+                            </p>
+
+                            <p>
+                                <span>petDetails:</span>
+                            </p>
+                            <div class="pl-4">
+                                <div>
+                                    <p>
+                                        <span>id:</span>
+                                        <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                    </p>
+
+                                    <p>
+                                        <span>category:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p class="text-sm">Category</p>
+
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+
+                                            <p>
+                                                <span>category:</span>
+                                                <span class="text-red-600">Circular</span> Category
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        <span>tag:</span>
+                                    </p>
+                                    <div class="pl-4">
+                                        <div>
+                                            <p>
+                                                <span>id:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">integer</span>
+                                            </p>
+
+                                            <p>
+                                                <span>name:</span>
+                                                <span class="font-mono font-bold text-emerald-700/80">string</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <p>
-                    <span>name:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>photoUrls:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                    <span class="text-red-600">*</span>
-                </p>
-
-                <p>
-                    <span>tags:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">array</span>
-                </p>
-
-                <p>
-                    <span>status:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                </p>
-
-                <p>
-                    <span>availableInstances:</span>
-                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                </p>
-
-                <p>
-                    <span>petDetailsId:</span>
-                </p>
-
-                <p>
-                    <span>petDetails:</span>
-                </p>
-                <div class="pl-4">
-                    <div>
-                        <p>
-                            <span>id:</span>
-                            <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                        </p>
-
-                        <p>
-                            <span>category:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p class="text-sm">Category</p>
-
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-
-                                <p><span>category:</span> <span class="text-red-600">Circular</span> Category</p>
-                            </div>
-                        </div>
-
-                        <p>
-                            <span>tag:</span>
-                        </p>
-                        <div class="pl-4">
-                            <div>
-                                <p>
-                                    <span>id:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">integer</span>
-                                </p>
-
-                                <p>
-                                    <span>name:</span>
-                                    <span class="font-mono font-bold text-emerald-700/80">string</span>
-                                </p>
-                            </div>
-                        </div>
+                    <div class="flex flex-1 bg-white rounded-md p-4">
+                        <pre>
+{
+    "some": "example",
+    "props": 42
+}</pre
+                        >
                     </div>
                 </div>
             </div>

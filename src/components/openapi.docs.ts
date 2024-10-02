@@ -57,12 +57,12 @@ const Operation: Component<OperationProps> = ({ operation, method, path, spec })
 
 const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
-    const schema = getSchema(schemaOrRef, spec);
+    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
     return schema
         ? html`
               <h4 class="mt-4 text-2xl">Request Body</h4>
               ${requestBody.description ? html`<p>${requestBody.description}</p>` : ''}
-              ${ComponentSlot('Schema', { schema, spec })}
+              ${ComponentSlot('Schema', { schema, usedRefs, spec })}
           `
         : '';
 };
@@ -90,45 +90,57 @@ const getStatusColor = (status: string) => {
 
 const Response: Component<ResponseProps> = ({ status, response, spec }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
-    const schema = getSchema(schemaOrRef, spec);
+    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
     return html`
         <h5>
             <span class="${cls('font-mono font-bold', getStatusColor(status))}">${status}</span> ${response.description
                 ? response.description
                 : ''}
         </h5>
-        ${schema ? ComponentSlot('Schema', { schema, spec }) : ''}
+        ${schema ? ComponentSlot('Schema', { schema, usedRefs, spec }) : ''}
     `;
 };
 
-const Schema: Component<SchemaProps> = ({ schema, spec }) =>
-    html`<div>
-        ${schema.description ? html`<p class="text-sm">${schema.description}</p>` : ''}
-        ${schema.properties &&
-        Object.entries(schema.properties)
-            .map(([name, propSchema]) =>
-                ComponentSlot('Property', {
-                    name,
-                    required: 'required' in schema ? (schema.required?.includes(name) ?? false) : false,
-                    schema: propSchema,
-                    spec,
-                }),
-            )
-            .join('')}
-    </div>`;
+const Schema: Component<SchemaProps> = ({ schema, usedRefs, spec }) => {
+    if ('CIRCULAR' in schema) {
+        return html`<p><span class="color-red-600">Circular</span> ${schema.CIRCULAR}</p>`;
+    } else {
+        return html`<div>
+            ${schema.description ? html`<p class="text-sm">${schema.description}</p>` : ''}
+            ${schema.properties &&
+            Object.entries(schema.properties)
+                .map(([name, propSchema]) =>
+                    ComponentSlot('Property', {
+                        name,
+                        required: 'required' in schema ? (schema.required?.includes(name) ?? false) : false,
+                        schema: propSchema,
+                        usedRefs,
+                        spec,
+                    }),
+                )
+                .join('')}
+        </div>`;
+    }
+};
 
-const Property: Component<PropertyProps> = ({ name, schema: schemaOrRef, required, spec }) => {
-    const schema = getSchema(schemaOrRef, spec);
-    return html`
-        <p>
-            <span>${name}:</span>${' '}
-            ${schema && schema.type
-                ? html`<span class="font-mono font-bold text-emerald-700/80">${schema.type}</span>`
+const Property: Component<PropertyProps> = ({ name, schema: schemaOrRef, required, spec, usedRefs: _usedRefs }) => {
+    const [schema, usedRefs] = getSchema(schemaOrRef, spec, _usedRefs);
+    if (schema && 'CIRCULAR' in schema) {
+        return html`<p><span>${name}:</span> <span class="text-red-600">Circular</span> ${schema.CIRCULAR}</p>`;
+    } else {
+        return html`
+            <p>
+                <span>${name}:</span>${' '}
+                ${schema && schema.type
+                    ? html`<span class="font-mono font-bold text-emerald-700/80">${schema.type}</span>`
+                    : ''}
+                ${required ? html`<span class="text-red-600">*</span>` : ''}
+            </p>
+            ${schema && ('properties' in schema || 'CIRCULAR' in schema)
+                ? html` <div class="pl-4">${ComponentSlot('Schema', { schema, usedRefs, spec })}</div> `
                 : ''}
-            ${required ? html`<span class="text-red-600">*</span>` : ''}
-        </p>
-        <div class="pl-4">${schema && schema.properties ? ComponentSlot('Schema', { schema, spec }) : ''}</div>
-    `;
+        `;
+    }
 };
 
 export const OpenApiDocs = {

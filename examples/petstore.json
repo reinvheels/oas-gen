@@ -204,6 +204,10 @@
                     "name": {
                         "type": "string",
                         "example": "Dogs"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/Category",
+                        "description": "PetDetails Category"
                     }
                 },
                 "xml": {

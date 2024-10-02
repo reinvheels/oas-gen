@@ -42,13 +42,21 @@ ${operation.requestBody ? ComponentSlot('RequestBody', { requestBody: operation.
 ${operation.responses ? ComponentSlot('Responses', { responses: operation.responses, spec }) : ''}
 `;
 
-export const getSchema = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined, spec: oas.Document) => {
+export type CircularSchema = { CIRCULAR: string };
+export const getSchema = (
+    schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined,
+    spec: oas.Document,
+    usedRefs: string[] = [],
+): [CircularSchema | oas.SchemaObject | undefined, string[]] => {
     const schemas = spec.components?.schemas || {};
     if (schemaOrRef && '$ref' in schemaOrRef) {
         const schemaName = schemaOrRef.$ref.split('#/components/schemas/')[1];
-        return schemas[schemaName] || undefined;
+        if (usedRefs.includes(schemaName)) {
+            return [{ CIRCULAR: schemaName }, usedRefs];
+        }
+        return [schemas[schemaName] || undefined, [...usedRefs, schemaName]];
     } else {
-        return schemaOrRef;
+        return [schemaOrRef, usedRefs];
     }
 };
 
@@ -58,8 +66,8 @@ export type RequestBodyProps = {
 };
 const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
-    const schema = getSchema(schemaOrRef, spec);
-    return schema ? ComponentSlot('Schema', { schema, spec }) : '';
+    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
+    return schema ? ComponentSlot('Schema', { schema, usedRefs, spec }) : '';
 };
 
 export type ResponsesProps = {
@@ -79,32 +87,40 @@ export type ResponseProps = {
 };
 const Response: Component<ResponseProps> = ({ status, response, spec }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
-    const schema = getSchema(schemaOrRef, spec);
-    return schema ? ComponentSlot('Schema', { schema, spec }) : '';
+    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
+    return schema ? ComponentSlot('Schema', { schema, usedRefs, spec }) : '';
 };
 
 export type SchemaProps = {
-    schema: oas.SchemaObject;
+    schema: oas.SchemaObject | CircularSchema;
     spec: oas.Document;
+    usedRefs: string[];
 };
-const Schema: Component<SchemaProps> = ({ schema, spec }) =>
-    schema.properties
-        ? Object.entries(schema.properties)
-              .map(([name, schema]) =>
-                  ComponentSlot('Property', {
-                      name,
-                      required: 'required' in schema ? (schema.required?.includes(name) ?? false) : false,
-                      schema,
-                      spec,
-                  }),
-              )
-              .join('')
-        : '';
+const Schema: Component<SchemaProps> = ({ schema, spec, usedRefs }) => {
+    if ('CIRCULAR' in schema) {
+        return '';
+    } else if (schema.properties) {
+        return Object.entries(schema.properties)
+            .map(([name, schema]) =>
+                ComponentSlot('Property', {
+                    name,
+                    required: 'required' in schema ? (schema.required?.includes(name) ?? false) : false,
+                    schema,
+                    usedRefs,
+                    spec,
+                }),
+            )
+            .join('');
+    } else {
+        return '';
+    }
+};
 
 export type PropertyProps = {
     name: string;
     required: boolean;
     schema: oas.SchemaObject;
+    usedRefs: string[];
     spec: oas.Document;
 };
 const Property: Component<PropertyProps> = () => 'Property Component Missing';

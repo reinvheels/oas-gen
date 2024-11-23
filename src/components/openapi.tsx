@@ -1,31 +1,32 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
-import { createGenerator, type Component } from '../generator';
+import { createGenerator } from '../generator';
 
 export type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patch' | 'trace';
 
 export type DocumentProps = {
     spec: oas.Document;
 };
-const Document: Component<DocumentProps> = ({ spec }) =>
-    spec.paths ? ComponentSlot('Operations', { paths: spec.paths, spec }) : '';
+const Document: Jizx.Component<DocumentProps> = ({ spec }) =>
+    spec.paths && <ComponentSlot Component="Operations" paths={spec.paths} spec={spec} />;
 
 export type OperationsProps = {
     paths: oas.PathsObject;
     spec: oas.Document;
 };
-const Operations: Component<OperationsProps> = ({ paths, spec }) =>
+const Operations: Jizx.Component<OperationsProps> = ({ paths, spec }) =>
     Object.entries(paths)
         .map(([path, pathObject]) =>
             pathObject
                 ? Object.entries(pathObject)
-                      .map(([method, operation]) =>
-                          ComponentSlot('Operation', {
-                              operation: operation as oas.OperationObject,
-                              method: method as HttpMethod,
-                              path,
-                              spec,
-                          }),
-                      )
+                      .map(([method, operation]) => (
+                          <ComponentSlot
+                              Component="Operation"
+                              operation={operation as oas.OperationObject}
+                              method={method as HttpMethod}
+                              path={path}
+                              spec={spec}
+                          />
+                      ))
                       .join('')
                 : '',
         )
@@ -37,10 +38,14 @@ export type OperationProps = {
     operation: oas.OperationObject;
     spec: oas.Document;
 };
-const Operation: Component<OperationProps> = ({ operation, spec }) => `
-${operation.requestBody ? ComponentSlot('RequestBody', { requestBody: operation.requestBody, spec }) : ''}
-${operation.responses ? ComponentSlot('Responses', { responses: operation.responses, spec }) : ''}
-`;
+const Operation: Jizx.Component<OperationProps> = ({ operation, spec }) => (
+    <>
+        {operation.requestBody && (
+            <ComponentSlot Component="RequestBody" requestBody={operation.requestBody} spec={spec} />
+        )}
+        {operation.responses && <ComponentSlot Component="Responses" responses={operation.responses} spec={spec} />}
+    </>
+);
 
 export type CircularSchema = { CIRCULAR: string };
 export const getSchema = (
@@ -64,19 +69,21 @@ export type RequestBodyProps = {
     requestBody: oas.ReferenceObject | oas.RequestBodyObject;
     spec: oas.Document;
 };
-const RequestBody: Component<RequestBodyProps> = ({ requestBody, spec }) => {
+const RequestBody: Jizx.Component<RequestBodyProps> = ({ requestBody, spec }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
     const [schema, usedRefs] = getSchema(schemaOrRef, spec);
-    return schema ? ComponentSlot('Schema', { schema, usedRefs, spec }) : '';
+    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} spec={spec} />;
 };
 
 export type ResponsesProps = {
     responses: oas.ResponsesObject;
     spec: oas.Document;
 };
-const Responses: Component<ResponsesProps> = ({ responses, spec }) => {
+const Responses: Jizx.Component<ResponsesProps> = ({ responses, spec }) => {
     return Object.entries(responses)
-        .map(([status, response]) => ComponentSlot('Response', { status, response, spec }))
+        .map(([status, response]) => (
+            <ComponentSlot Component="Response" status={status} response={response} spec={spec} />
+        ))
         .join('');
 };
 
@@ -85,10 +92,10 @@ export type ResponseProps = {
     response: oas.ReferenceObject | oas.ResponseObject;
     spec: oas.Document;
 };
-const Response: Component<ResponseProps> = ({ status, response, spec }) => {
+const Response: Jizx.Component<ResponseProps> = ({ status, response, spec }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
     const [schema, usedRefs] = getSchema(schemaOrRef, spec);
-    return schema ? ComponentSlot('Schema', { schema, usedRefs, spec }) : '';
+    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} spec={spec} />;
 };
 
 export type SchemaProps = {
@@ -96,20 +103,21 @@ export type SchemaProps = {
     spec: oas.Document;
     usedRefs: string[];
 };
-const Schema: Component<SchemaProps> = ({ schema, spec, usedRefs }) => {
+const Schema: Jizx.Component<SchemaProps> = ({ schema, spec, usedRefs }) => {
     if ('CIRCULAR' in schema) {
         return '';
     } else if (schema.properties) {
         return Object.entries(schema.properties)
-            .map(([name, schema]) =>
-                ComponentSlot('Property', {
-                    name,
-                    required: 'required' in schema ? (schema.required?.includes(name) ?? false) : false,
-                    schema,
-                    usedRefs,
-                    spec,
-                }),
-            )
+            .map(([name, schema]) => (
+                <ComponentSlot
+                    Component="Property"
+                    name={name}
+                    required={'required' in schema ? (schema.required?.includes(name) ?? false) : false}
+                    schema={schema}
+                    usedRefs={usedRefs}
+                    spec={spec}
+                />
+            ))
             .join('');
     } else {
         return '';
@@ -123,7 +131,7 @@ export type PropertyProps = {
     usedRefs: string[];
     spec: oas.Document;
 };
-const Property: Component<PropertyProps> = () => 'Property Component Missing';
+const Property: Jizx.Component<PropertyProps> = () => 'Property Component Missing';
 
 export const OpenApi = {
     Document,

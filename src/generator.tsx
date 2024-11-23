@@ -1,4 +1,4 @@
-type ComponentMap = Record<string, Jizx.Component<unknown>>;
+type ComponentMap = Record<string, Jizx.Component<any>>;
 
 export const createGenerator = <TComponentMap extends ComponentMap>(Components: TComponentMap) => {
     let _Components = Components;

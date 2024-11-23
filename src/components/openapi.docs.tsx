@@ -33,7 +33,7 @@ const Document: Jizx.Component<DocumentProps> = ({}) => {
         <html>
             <head>
                 <title>{spec.info.title}</title>
-                <script src="https://cdn.tailwindcss.com"></script>
+                {'<script src="https://cdn.tailwindcss.com"></script>'}
             </head>
             <body>
                 <div class="p-4 flex flex-col gap-2 container mx-auto">

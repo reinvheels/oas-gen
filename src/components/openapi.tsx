@@ -1,19 +1,22 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
 import { createGenerator } from '../generator';
+import { createContext, useContext } from '@reinvheels/jizx';
+import { emptySpec } from '../util';
+
+export const SpecContext = createContext(emptySpec());
 
 export type HttpMethod = 'get' | 'put' | 'post' | 'delete' | 'options' | 'head' | 'patch' | 'trace';
 
-export type DocumentProps = {
-    spec: oas.Document;
+export type DocumentProps = {};
+const Document: Jizx.Component<DocumentProps> = ({}) => {
+    const spec = useContext(SpecContext);
+    return spec.paths && <ComponentSlot Component="Operations" paths={spec.paths} />;
 };
-const Document: Jizx.Component<DocumentProps> = ({ spec }) =>
-    spec.paths && <ComponentSlot Component="Operations" paths={spec.paths} spec={spec} />;
 
 export type OperationsProps = {
     paths: oas.PathsObject;
-    spec: oas.Document;
 };
-const Operations: Jizx.Component<OperationsProps> = ({ paths, spec }) => (
+const Operations: Jizx.Component<OperationsProps> = ({ paths }) => (
     <>
         {Object.entries(paths).map(
             ([path, pathObject]) =>
@@ -24,7 +27,6 @@ const Operations: Jizx.Component<OperationsProps> = ({ paths, spec }) => (
                         operation={operation as oas.OperationObject}
                         method={method as HttpMethod}
                         path={path}
-                        spec={spec}
                     />
                 )),
         )}
@@ -34,14 +36,11 @@ export type OperationProps = {
     method: HttpMethod;
     path: string;
     operation: oas.OperationObject;
-    spec: oas.Document;
 };
-const Operation: Jizx.Component<OperationProps> = ({ operation, spec }) => (
+const Operation: Jizx.Component<OperationProps> = ({ operation }) => (
     <>
-        {operation.requestBody && (
-            <ComponentSlot Component="RequestBody" requestBody={operation.requestBody} spec={spec} />
-        )}
-        {operation.responses && <ComponentSlot Component="Responses" responses={operation.responses} spec={spec} />}
+        {operation.requestBody && <ComponentSlot Component="RequestBody" requestBody={operation.requestBody} />}
+        {operation.responses && <ComponentSlot Component="Responses" responses={operation.responses} />}
     </>
 );
 
@@ -65,23 +64,22 @@ export const getSchema = (
 
 export type RequestBodyProps = {
     requestBody: oas.ReferenceObject | oas.RequestBodyObject;
-    spec: oas.Document;
 };
-const RequestBody: Jizx.Component<RequestBodyProps> = ({ requestBody, spec }) => {
+const RequestBody: Jizx.Component<RequestBodyProps> = ({ requestBody }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
+    const spec = useContext(SpecContext);
     const [schema, usedRefs] = getSchema(schemaOrRef, spec);
-    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} spec={spec} />;
+    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />;
 };
 
 export type ResponsesProps = {
     responses: oas.ResponsesObject;
-    spec: oas.Document;
 };
-const Responses: Jizx.Component<ResponsesProps> = ({ responses, spec }) => {
+const Responses: Jizx.Component<ResponsesProps> = ({ responses }) => {
     return (
         <>
             {Object.entries(responses).map(([status, response]) => (
-                <ComponentSlot Component="Response" status={status} response={response} spec={spec} />
+                <ComponentSlot Component="Response" status={status} response={response} />
             ))}
         </>
     );
@@ -90,20 +88,20 @@ const Responses: Jizx.Component<ResponsesProps> = ({ responses, spec }) => {
 export type ResponseProps = {
     status: string;
     response: oas.ReferenceObject | oas.ResponseObject;
-    spec: oas.Document;
 };
-const Response: Jizx.Component<ResponseProps> = ({ status, response, spec }) => {
+const Response: Jizx.Component<ResponseProps> = ({ status, response }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
+    const spec = useContext(SpecContext);
     const [schema, usedRefs] = getSchema(schemaOrRef, spec);
-    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} spec={spec} />;
+    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />;
 };
 
 export type SchemaProps = {
     schema: oas.SchemaObject | CircularSchema;
-    spec: oas.Document;
+
     usedRefs: string[];
 };
-const Schema: Jizx.Component<SchemaProps> = ({ schema, spec, usedRefs }) => {
+const Schema: Jizx.Component<SchemaProps> = ({ schema, usedRefs }) => {
     if ('CIRCULAR' in schema) {
         return '';
     } else if (schema.properties) {
@@ -116,7 +114,6 @@ const Schema: Jizx.Component<SchemaProps> = ({ schema, spec, usedRefs }) => {
                         required={'required' in schema ? (schema.required?.includes(name) ?? false) : false}
                         schema={schema}
                         usedRefs={usedRefs}
-                        spec={spec}
                     />
                 ))}
             </>
@@ -131,7 +128,6 @@ export type PropertyProps = {
     required: boolean;
     schema: oas.SchemaObject;
     usedRefs: string[];
-    spec: oas.Document;
 };
 const Property: Jizx.Component<PropertyProps> = () => 'Property Component Missing';
 

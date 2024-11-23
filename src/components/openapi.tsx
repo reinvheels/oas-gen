@@ -13,25 +13,23 @@ export type OperationsProps = {
     paths: oas.PathsObject;
     spec: oas.Document;
 };
-const Operations: Jizx.Component<OperationsProps> = ({ paths, spec }) =>
-    Object.entries(paths)
-        .map(([path, pathObject]) =>
-            pathObject
-                ? Object.entries(pathObject)
-                      .map(([method, operation]) => (
-                          <ComponentSlot
-                              Component="Operation"
-                              operation={operation as oas.OperationObject}
-                              method={method as HttpMethod}
-                              path={path}
-                              spec={spec}
-                          />
-                      ))
-                      .join('')
-                : '',
-        )
-        .join('');
-
+const Operations: Jizx.Component<OperationsProps> = ({ paths, spec }) => (
+    <>
+        {Object.entries(paths).map(
+            ([path, pathObject]) =>
+                pathObject &&
+                Object.entries(pathObject).map(([method, operation]) => (
+                    <ComponentSlot
+                        Component="Operation"
+                        operation={operation as oas.OperationObject}
+                        method={method as HttpMethod}
+                        path={path}
+                        spec={spec}
+                    />
+                )),
+        )}
+    </>
+);
 export type OperationProps = {
     method: HttpMethod;
     path: string;
@@ -80,11 +78,13 @@ export type ResponsesProps = {
     spec: oas.Document;
 };
 const Responses: Jizx.Component<ResponsesProps> = ({ responses, spec }) => {
-    return Object.entries(responses)
-        .map(([status, response]) => (
-            <ComponentSlot Component="Response" status={status} response={response} spec={spec} />
-        ))
-        .join('');
+    return (
+        <>
+            {Object.entries(responses).map(([status, response]) => (
+                <ComponentSlot Component="Response" status={status} response={response} spec={spec} />
+            ))}
+        </>
+    );
 };
 
 export type ResponseProps = {
@@ -107,18 +107,20 @@ const Schema: Jizx.Component<SchemaProps> = ({ schema, spec, usedRefs }) => {
     if ('CIRCULAR' in schema) {
         return '';
     } else if (schema.properties) {
-        return Object.entries(schema.properties)
-            .map(([name, schema]) => (
-                <ComponentSlot
-                    Component="Property"
-                    name={name}
-                    required={'required' in schema ? (schema.required?.includes(name) ?? false) : false}
-                    schema={schema}
-                    usedRefs={usedRefs}
-                    spec={spec}
-                />
-            ))
-            .join('');
+        return (
+            <>
+                {Object.entries(schema.properties).map(([name, schema]) => (
+                    <ComponentSlot
+                        Component="Property"
+                        name={name}
+                        required={'required' in schema ? (schema.required?.includes(name) ?? false) : false}
+                        schema={schema}
+                        usedRefs={usedRefs}
+                        spec={spec}
+                    />
+                ))}
+            </>
+        );
     } else {
         return '';
     }

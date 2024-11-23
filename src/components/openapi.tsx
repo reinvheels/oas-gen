@@ -44,32 +44,12 @@ const Operation: Jizx.Component<OperationProps> = ({ operation }) => (
     </>
 );
 
-export type CircularSchema = { CIRCULAR: string };
-export const getSchema = (
-    schemaOrRef: oas.ReferenceObject | oas.SchemaObject | undefined,
-    spec: oas.Document,
-    usedRefs: string[] = [],
-): [CircularSchema | oas.SchemaObject | undefined, string[]] => {
-    const schemas = spec.components?.schemas || {};
-    if (schemaOrRef && '$ref' in schemaOrRef) {
-        const schemaName = schemaOrRef.$ref.split('#/components/schemas/')[1];
-        if (usedRefs.includes(schemaName)) {
-            return [{ CIRCULAR: schemaName }, usedRefs];
-        }
-        return [schemas[schemaName] || undefined, [...usedRefs, schemaName]];
-    } else {
-        return [schemaOrRef, usedRefs];
-    }
-};
-
 export type RequestBodyProps = {
     requestBody: oas.ReferenceObject | oas.RequestBodyObject;
 };
 const RequestBody: Jizx.Component<RequestBodyProps> = ({ requestBody }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
-    const spec = useContext(SpecContext);
-    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
-    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />;
+    return schemaOrRef && <ComponentSlot Component="Schema" schemaOrRef={schemaOrRef} />;
 };
 
 export type ResponsesProps = {
@@ -91,35 +71,27 @@ export type ResponseProps = {
 };
 const Response: Jizx.Component<ResponseProps> = ({ status, response }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
-    const spec = useContext(SpecContext);
-    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
-    return schema && <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />;
+    return schemaOrRef && <ComponentSlot Component="Schema" schemaOrRef={schemaOrRef} />;
 };
 
 export type SchemaProps = {
-    schema: oas.SchemaObject | CircularSchema;
-
-    usedRefs: string[];
+    schemaOrRef: oas.SchemaObject | oas.ReferenceObject;
 };
-const Schema: Jizx.Component<SchemaProps> = ({ schema, usedRefs }) => {
-    if ('CIRCULAR' in schema) {
-        return '';
-    } else if (schema.properties) {
+const Schema: Jizx.Component<SchemaProps> = ({ schemaOrRef }) => {
+    const { schema, circular, refNames } = useComponentRef(schemaOrRef);
+    if (schema && !circular && schema.properties) {
         return (
-            <>
+            <RefNamesContext.Provider value={refNames}>
                 {Object.entries(schema.properties).map(([name, schema]) => (
                     <ComponentSlot
                         Component="Property"
                         name={name}
                         required={'required' in schema ? (schema.required?.includes(name) ?? false) : false}
                         schema={schema}
-                        usedRefs={usedRefs}
                     />
                 ))}
-            </>
+            </RefNamesContext.Provider>
         );
-    } else {
-        return '';
     }
 };
 
@@ -127,9 +99,22 @@ export type PropertyProps = {
     name: string;
     required: boolean;
     schema: oas.SchemaObject;
-    usedRefs: string[];
 };
 const Property: Jizx.Component<PropertyProps> = () => 'Property Component Missing';
+
+export const RefNamesContext = createContext<string[]>([]);
+export const useComponentRef = (schemaOrRef: oas.ReferenceObject | oas.SchemaObject) => {
+    const ref = (schemaOrRef as oas.ReferenceObject).$ref?.split('#/components/schemas/')?.[1] as string | undefined;
+    const spec = useContext(SpecContext);
+    const refNames = useContext(RefNamesContext);
+    const circular = ref ? refNames.includes(ref) : false;
+    return {
+        ref,
+        schema: ref ? spec.components?.schemas?.[ref] : (schemaOrRef as oas.SchemaObject),
+        refNames: ref ? [...refNames, ref] : refNames,
+        circular,
+    };
+};
 
 export const OpenApi = {
     Document,

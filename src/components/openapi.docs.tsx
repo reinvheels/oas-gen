@@ -1,9 +1,10 @@
 import type { OpenAPIV3_1 as oas } from 'openapi-types';
 import { cls } from '../util';
 import {
-    getSchema,
     OpenApiGenerator,
+    RefNamesContext,
     SpecContext,
+    useComponentRef,
     type DocumentProps,
     type HttpMethod,
     type OperationProps,
@@ -63,24 +64,22 @@ const Operation: Jizx.Component<OperationProps> = ({ operation, method, path }) 
 
 const RequestBody: Jizx.Component<RequestBodyProps> = ({ requestBody }) => {
     const schemaOrRef = (requestBody as oas.RequestBodyObject).content['application/json']?.schema;
-    const spec = useContext(SpecContext);
-    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
     return (
-        schema && (
+        schemaOrRef && (
             <>
                 <h4 class="mt-4 text-2xl">Request Body</h4>
                 {requestBody.description && <p>{requestBody.description}</p>}
-                <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />
+                {schemaOrRef && <SchemaPanel schemaOrRef={schemaOrRef} />}
             </>
         )
     );
 };
 
-const SchemaPanel: Jizx.Component<SchemaProps> = ({ schema, usedRefs }) => (
+const SchemaPanel: Jizx.Component<SchemaProps> = ({ schemaOrRef }) => (
     <div class="rounded-xl bg-slate-100 p-4 mb-4">
         <div class="flex flex-col gap-4 md:flex-row">
             <div class="flex flex-1">
-                <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />
+                <ComponentSlot Component="Schema" schemaOrRef={schemaOrRef} />
             </div>
             <div class="flex flex-1 flex-col bg-white rounded-md p-4">
                 <p>Example:</p>
@@ -115,59 +114,50 @@ const getStatusColor = (status: string) => {
 
 const Response: Jizx.Component<ResponseProps> = ({ status, response }) => {
     const schemaOrRef = (response as oas.ResponseObject).content?.['application/json']?.schema;
-    const spec = useContext(SpecContext);
-    const [schema, usedRefs] = getSchema(schemaOrRef, spec);
     return (
         <>
             <h5>
                 <span class={cls('font-mono font-bold', getStatusColor(status))}>{status}</span>{' '}
                 {response.description && response.description}
             </h5>
-            {schema && <SchemaPanel schema={schema} usedRefs={usedRefs} />}
+            {schemaOrRef && <SchemaPanel schemaOrRef={schemaOrRef} />}
         </>
     );
 };
 
-const Schema: Jizx.Component<SchemaProps> = ({ schema, usedRefs }) => {
-    if ('CIRCULAR' in schema) {
-        return (
-            <p>
-                <span class="color-red-600">Circular</span> {schema.CIRCULAR}
-            </p>
-        );
-    } else {
+const Schema: Jizx.Component<SchemaProps> = ({ schemaOrRef }) => {
+    const { schema, circular, refNames } = useComponentRef(schemaOrRef);
+    if (schema && !circular) {
         return (
             <div>
                 {schema.description && <p class="text-sm">{schema.description}</p>}
-                <>
+                <RefNamesContext.Provider value={refNames}>
                     {schema.properties &&
                         Object.entries(schema.properties).map(([name, propSchema]) => (
                             <ComponentSlot
                                 Component="Property"
                                 name={name}
                                 required={'required' in schema ? (schema.required?.includes(name) ?? false) : false}
-                                schema={schema}
-                                usedRefs={usedRefs}
+                                schema={propSchema}
                             />
                         ))}
-                </>
+                </RefNamesContext.Provider>
             </div>
         );
     }
 };
 
-const Property: Jizx.Component<PropertyProps> = ({ name, schema: schemaOrRef, required, usedRefs: _usedRefs }) => {
-    const spec = useContext(SpecContext);
-    const [schema, usedRefs] = getSchema(schemaOrRef, spec, _usedRefs);
-    if (schema && 'CIRCULAR' in schema) {
+const Property: Jizx.Component<PropertyProps> = ({ name, schema: schemaOrRef, required }) => {
+    const { schema, circular, refNames, ref } = useComponentRef(schemaOrRef);
+    if (schema && circular) {
         return (
             <p>
-                <span>{name}:</span> <span class="text-red-600">Circular</span> {schema.CIRCULAR}
+                <span>{name}:</span> <span class="text-red-600">Circular</span> {ref}
             </p>
         );
     } else {
         return (
-            <>
+            <RefNamesContext.Provider value={refNames}>
                 <p>
                     <span>{name}:</span>
                     {schema && schema.type && (
@@ -175,12 +165,12 @@ const Property: Jizx.Component<PropertyProps> = ({ name, schema: schemaOrRef, re
                     )}
                     {required && <span class="text-red-600">*</span>}
                 </p>
-                {schema && ('properties' in schema || 'CIRCULAR' in schema) && (
+                {schema && 'properties' in schema && (
                     <div class="pl-4">
-                        <ComponentSlot Component="Schema" schema={schema} usedRefs={usedRefs} />
+                        <ComponentSlot Component="Schema" schemaOrRef={schema} />
                     </div>
                 )}
-            </>
+            </RefNamesContext.Provider>
         );
     }
 };
